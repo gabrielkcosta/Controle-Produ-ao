@@ -1,5 +1,5 @@
 import { OrdemProducao } from "../model/ordemProducao.js";
-import * as opRepo from "../repository/ordemProducaoRepository.js";
+import {opRepo} from "../repository/ordemProducaoRepository.js";
 
 export function cadastrar(numero, produto, quantidade, prazo) {
   const ordem = new OrdemProducao(numero, produto, quantidade, prazo);

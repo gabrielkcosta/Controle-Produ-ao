@@ -1,5 +1,5 @@
 import { Operador } from "../model/operador.js";
-import * as operadorRepo from "../repository/operadorRepository.js";
+import {operadorRepo} from "../repository/operadorRepository.js";
 
 export function cadastrar(matricula, nome, funcao, turno) {
   const operador = new Operador(matricula, nome, funcao, turno);
