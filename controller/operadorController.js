@@ -1,13 +1,20 @@
-import { Operador } from "../model/operador.js";
-import {operadorRepo} from "../repository/operadorRepository.js";
+import { Operador } from "../model/Operador.js";
+import { 
+  cadastrarOperador, 
+  listarOperadores, 
+  buscarOperadorPorIndice, 
+  atualizarOperador, 
+  excluirOperador 
+} from "../repository/operadorRepository.js";
 
 export function cadastrar(matricula, nome, funcao, turno) {
   const operador = new Operador(matricula, nome, funcao, turno);
-  operadorRepo.cadastrarOperador(operador);
+  cadastrarOperador(operador);
 }
 
 export function listar() {
-  const operadores = operadorRepo.listarOperadores();
+  const operadores = listarOperadores();
+  console.log("\n--- LISTA DE OPERADORES ---");
   for (let i = 0; i < operadores.length; i++) {
     const o = operadores[i];
     console.log(`[Índice ${i}] Matrícula: ${o.matricula} | Nome: ${o.nome} | Função: ${o.funcao} | Turno: ${o.turno} | Status: ${o.status}`);
@@ -15,7 +22,7 @@ export function listar() {
 }
 
 export function buscarPorIndice(indice) {
-  const operador = operadorRepo.buscarOperadorPorIndice(indice);
+  const operador = buscarOperadorPorIndice(indice);
   if (!operador) {
     console.log(`[Operador] Índice ${indice} não encontrado.`);
     return null;
@@ -25,26 +32,26 @@ export function buscarPorIndice(indice) {
 }
 
 export function atualizar(indice, matricula, nome, funcao, turno) {
-  const operadorExistente = operadorRepo.buscarOperadorPorIndice(indice);
+  const operadorExistente = buscarOperadorPorIndice(indice);
   if (!operadorExistente) {
     console.log(`[Operador] Impossível atualizar. Índice ${indice} não existe.`);
     return;
   }
   const novoOperador = new Operador(matricula, nome, funcao, turno);
-  operadorRepo.atualizarOperador(indice, novoOperador);
+  atualizarOperador(indice, novoOperador);
 }
 
 export function excluir(indice) {
-  const operadorExistente = operadorRepo.buscarOperadorPorIndice(indice);
+  const operadorExistente = buscarOperadorPorIndice(indice);
   if (!operadorExistente) {
     console.log(`[Operador] Impossível excluir. Índice ${indice} não existe.`);
     return;
   }
-  operadorRepo.excluirOperador(indice);
+  excluirOperador(indice);
 }
 
 export function ativarOperador(indice) {
-  const operador = operadorRepo.buscarOperadorPorIndice(indice);
+  const operador = buscarOperadorPorIndice(indice);
   if (!operador) {
     console.log(`[Operador] Índice ${indice} não encontrado para ativar.`);
     return;
@@ -53,7 +60,7 @@ export function ativarOperador(indice) {
 }
 
 export function desativarOperador(indice) {
-  const operador = operadorRepo.buscarOperadorPorIndice(indice);
+  const operador = buscarOperadorPorIndice(indice);
   if (!operador) {
     console.log(`[Operador] Índice ${indice} não encontrado para desativar.`);
     return;

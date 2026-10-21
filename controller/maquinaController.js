@@ -1,13 +1,20 @@
-import { Maquina } from "../model/maquina.js";
-import {maquinaRepository} from "../repository/maquinaRepository.js";
+import { Maquina } from "../model/Maquina.js";
+import { 
+  cadastrarMaquina, 
+  listarMaquinas, 
+  buscarMaquinaPorIndice, 
+  atualizarMaquina, 
+  excluirMaquina 
+} from "../repository/maquinaRepository.js";
 
 export function cadastrar(codigo, nome, setor) {
   const maquina = new Maquina(codigo, nome, setor);
-  maquinaRepository.cadastrarMaquina(maquina);
+  cadastrarMaquina(maquina);
 }
 
 export function listar() {
-  const maquinas = maquinaRepository.listarMaquinas();
+  const maquinas = listarMaquinas();
+  console.log("\n--- LISTA DE MÁQUINAS ---");
   for (let i = 0; i < maquinas.length; i++) {
     const m = maquinas[i];
     console.log(`[Índice ${i}] Código: ${m.codigo} | Nome: ${m.nome} | Setor: ${m.setor} | Status: ${m.status}`);
@@ -15,7 +22,7 @@ export function listar() {
 }
 
 export function buscarPorIndice(indice) {
-  const maquina = maquinaRepository.buscarMaquinaPorIndice(indice);
+  const maquina = buscarMaquinaPorIndice(indice);
   if (!maquina) {
     console.log(`[Máquina] Índice ${indice} não encontrado.`);
     return null;
@@ -25,26 +32,26 @@ export function buscarPorIndice(indice) {
 }
 
 export function atualizar(indice, codigo, nome, setor) {
-  const maquinaExistente = maquinaRepository.buscarMaquinaPorIndice(indice);
+  const maquinaExistente = buscarMaquinaPorIndice(indice);
   if (!maquinaExistente) {
     console.log(`[Máquina] Impossível atualizar. Índice ${indice} não existe.`);
     return;
   }
   const novaMaquina = new Maquina(codigo, nome, setor);
-  maquinaRepository.atualizarMaquina(indice, novaMaquina);
+  atualizarMaquina(indice, novaMaquina);
 }
 
 export function excluir(indice) {
-  const maquinaExistente = maquinaRepository.buscarMaquinaPorIndice(indice);
+  const maquinaExistente = buscarMaquinaPorIndice(indice);
   if (!maquinaExistente) {
     console.log(`[Máquina] Impossível excluir. Índice ${indice} não existe.`);
     return;
   }
-  maquinaRepository.excluirMaquina(indice);
+  excluirMaquina(indice);
 }
 
 export function ligarMaquina(indice) {
-  const maquina = maquinaRepository.buscarMaquinaPorIndice(indice);
+  const maquina = buscarMaquinaPorIndice(indice);
   if (!maquina) {
     console.log(`[Máquina] Índice ${indice} não encontrado para ligar.`);
     return;
@@ -53,7 +60,7 @@ export function ligarMaquina(indice) {
 }
 
 export function desligarMaquina(indice) {
-  const maquina = maquinaRepository.buscarMaquinaPorIndice(indice);
+  const maquina = buscarMaquinaPorIndice(indice);
   if (!maquina) {
     console.log(`[Máquina] Índice ${indice} não encontrado para desligar.`);
     return;

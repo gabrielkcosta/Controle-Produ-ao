@@ -1,13 +1,20 @@
-import { OrdemProducao } from "../model/ordemProducao.js";
-import {opRepo} from "../repository/ordemProducaoRepository.js";
+import { OrdemProducao } from "../model/OrdemProducao.js";
+import { 
+  cadastrarOrdemProducao, 
+  listarOrdensProducao, 
+  buscarOrdemProducaoPorIndice, 
+  atualizarOrdemProducao, 
+  excluirOrdemProducao 
+} from "../repository/ordemProducaoRepository.js";
 
 export function cadastrar(numero, produto, quantidade, prazo) {
   const ordem = new OrdemProducao(numero, produto, quantidade, prazo);
-  opRepo.cadastrarOrdemProducao(ordem);
+  cadastrarOrdemProducao(ordem);
 }
 
 export function listar() {
-  const ordens = opRepo.listarOrdensProducao();
+  const ordens = listarOrdensProducao();
+  console.log("\n--- LISTA DE ORDENS DE PRODUÇÃO ---");
   for (let i = 0; i < ordens.length; i++) {
     const op = ordens[i];
     console.log(`[Índice ${i}] Número: ${op.numero} | Produto: ${op.produto} | Qtd: ${op.quantidade} | Prazo: ${op.prazo} | Status: ${op.status}`);
@@ -15,7 +22,7 @@ export function listar() {
 }
 
 export function buscarPorIndice(indice) {
-  const ordem = opRepo.buscarOrdemProducaoPorIndice(indice);
+  const ordem = buscarOrdemProducaoPorIndice(indice);
   if (!ordem) {
     console.log(`[OrdemProducao] Índice ${indice} não encontrado.`);
     return null;
@@ -25,26 +32,26 @@ export function buscarPorIndice(indice) {
 }
 
 export function atualizar(indice, numero, produto, quantidade, prazo) {
-  const ordemExistente = opRepo.buscarOrdemProducaoPorIndice(indice);
+  const ordemExistente = buscarOrdemProducaoPorIndice(indice);
   if (!ordemExistente) {
     console.log(`[OrdemProducao] Impossível atualizar. Índice ${indice} não existe.`);
     return;
   }
   const novaOrdem = new OrdemProducao(numero, produto, quantidade, prazo);
-  opRepo.atualizarOrdemProducao(indice, novaOrdem);
+  atualizarOrdemProducao(indice, novaOrdem);
 }
 
 export function excluir(indice) {
-  const ordemExistente = opRepo.buscarOrdemProducaoPorIndice(indice);
+  const ordemExistente = buscarOrdemProducaoPorIndice(indice);
   if (!ordemExistente) {
     console.log(`[OrdemProducao] Impossível excluir. Índice ${indice} não existe.`);
     return;
   }
-  opRepo.excluirOrdemProducao(indice);
+  excluirOrdemProducao(indice);
 }
 
 export function iniciarOrdem(indice) {
-  const ordem = opRepo.buscarOrdemProducaoPorIndice(indice);
+  const ordem = buscarOrdemProducaoPorIndice(indice);
   if (!ordem) {
     console.log(`[OrdemProducao] Índice ${indice} não encontrado para iniciar.`);
     return;
@@ -53,7 +60,7 @@ export function iniciarOrdem(indice) {
 }
 
 export function concluirOrdem(indice) {
-  const ordem = opRepo.buscarOrdemProducaoPorIndice(indice);
+  const ordem = buscarOrdemProducaoPorIndice(indice);
   if (!ordem) {
     console.log(`[OrdemProducao] Índice ${indice} não encontrado para concluir.`);
     return;
